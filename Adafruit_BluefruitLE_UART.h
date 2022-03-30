@@ -40,7 +40,9 @@
 #include "Arduino.h"
 #include <Adafruit_BLE.h>
 
-#define SOFTWARE_SERIAL_AVAILABLE   ( ! (defined (_VARIANT_ARDUINO_DUE_X_) || defined (ARDUINO_ARCH_SAMD) || defined (ARDUINO_STM32_FEATHER)) )
+//TODO: Find the appropriate flag to check for RP2040 support.
+//#define SOFTWARE_SERIAL_AVAILABLE   ( ! (defined (_VARIANT_ARDUINO_DUE_X_) || defined (ARDUINO_ARCH_SAMD) || defined (ARDUINO_STM32_FEATHER)) )
+#define SOFTWARE_SERIAL_AVAILABLE false
 
 #if SOFTWARE_SERIAL_AVAILABLE
   #include <SoftwareSerial.h>
