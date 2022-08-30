@@ -458,7 +458,7 @@ int Adafruit_BluefruitLE_SPI::read(void)
     if ( digitalRead(m_irq_pin) ) getResponse();
   }
 
-  return m_rx_fifo.read(&ch) ? ((int) ch) : EOF;
+  return m_rx_fifo.read(&ch) ? ((int) ch) : -1;
 
 }
 
@@ -492,7 +492,7 @@ int Adafruit_BluefruitLE_SPI::peek(void)
     if ( digitalRead(m_irq_pin) ) getResponse();
   }
 
-  return m_rx_fifo.peek(&ch) ? ch : EOF;
+  return m_rx_fifo.peek(&ch) ? ch : -1;
 }
 
 /******************************************************************************/
