@@ -68,6 +68,8 @@ Adafruit_BLE::Adafruit_BLE(void)
 
   _disconnect_callback  = NULL;
   _connect_callback     = NULL;
+  _disconnect_arg = NULL;
+  _connect_arg = NULL;
   _ble_uart_rx_callback = NULL;
   _ble_midi_rx_callback = NULL;
   _ble_gatt_rx_callback = NULL;
@@ -315,8 +317,8 @@ void Adafruit_BLE::update(uint32_t period_ms)
     //--------------------------------------------------------------------+
     // System Event
     //--------------------------------------------------------------------+
-    if ( this->_connect_callback    && bitRead(system_event, EVENT_SYSTEM_CONNECT   ) ) this->_connect_callback();
-    if ( this->_disconnect_callback && bitRead(system_event, EVENT_SYSTEM_DISCONNECT) ) this->_disconnect_callback();
+    if ( this->_connect_callback    && bitRead(system_event, EVENT_SYSTEM_CONNECT   ) ) this->_connect_callback(_connect_arg);
+    if ( this->_disconnect_callback && bitRead(system_event, EVENT_SYSTEM_DISCONNECT) ) this->_disconnect_callback(_disconnect_arg);
 
     if ( this->_ble_uart_rx_callback && bitRead(system_event, EVENT_SYSTEM_BLE_UART_RX) )
     {
@@ -558,9 +560,10 @@ int  Adafruit_BLE::readBLEUart(uint8_t* buffer, int size)
     @param[in] fp function pointer, NULL will discard callback
 */
 /******************************************************************************/
-void Adafruit_BLE::setConnectCallback( void (*fp) (void) )
+void Adafruit_BLE::setConnectCallback( void (*fp) (void*), void (*arg) )
 {
   this->_connect_callback = fp;
+  this->_connect_arg = arg;
   install_callback(fp != NULL, EVENT_SYSTEM_CONNECT, -1);
 }
 
@@ -571,9 +574,10 @@ void Adafruit_BLE::setConnectCallback( void (*fp) (void) )
     @param[in] fp function pointer, NULL will discard callback
 */
 /******************************************************************************/
-void Adafruit_BLE::setDisconnectCallback( void (*fp) (void) )
+void Adafruit_BLE::setDisconnectCallback( void (*fp) (void*), void (*arg) )
 {
   this->_disconnect_callback = fp;
+  this->_disconnect_arg = arg;
   install_callback(fp != NULL, EVENT_SYSTEM_DISCONNECT, -1);
 }
 

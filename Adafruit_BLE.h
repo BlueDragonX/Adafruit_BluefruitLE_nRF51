@@ -132,8 +132,8 @@ class Adafruit_BLE : public Adafruit_ATParser
       this->update(0);
     }
 
-    void setDisconnectCallback( void (*fp) (void) );
-    void setConnectCallback   ( void (*fp) (void) );
+    void setDisconnectCallback( void (*fp) (void*), void (*arg) = NULL );
+    void setConnectCallback   ( void (*fp) (void*), void (*arg) = NULL );
 
     void setBleUartRxCallback( void (*fp) (char data[], uint16_t len) );
     void setBleMidiRxCallback( midiRxCallback_t fp );
@@ -143,8 +143,10 @@ class Adafruit_BLE : public Adafruit_ATParser
     // helper
     void install_callback(bool enable, int8_t system_id, int8_t gatts_id);
 
-    void (*_disconnect_callback) (void);
-    void (*_connect_callback) (void);
+    void (*_disconnect_callback) (void*);
+    void (*_connect_callback) (void*);
+    void* _disconnect_arg;
+    void* _connect_arg;
 
     void (*_ble_uart_rx_callback) (char data[], uint16_t len);
     midiRxCallback_t _ble_midi_rx_callback;
